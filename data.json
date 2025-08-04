@@ -1,0 +1,22 @@
+{
+  "users": [
+    {
+      "id": "45d562f3-7800-4e31-b9fa-f4b8591351aa",
+      "email": "a@test.com",
+      "password": "30c952fab122c3f9759f02a6d95c3758b246b4fee239957b2d4fee46e26170c4"
+    }
+  ],
+  "posts": [
+    {
+      "id": "0bcd0757-4340-4ee6-96ac-4d8fd51730f0",
+      "userId": "45d562f3-7800-4e31-b9fa-f4b8591351aa",
+      "title": "Yoga Lesson",
+      "description": "",
+      "category": "service",
+      "offer": "",
+      "lat": 0,
+      "lng": 0,
+      "createdAt": 1754287940199
+    }
+  ]
+}

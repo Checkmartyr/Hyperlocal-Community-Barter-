@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Hyperlocal Barter</title>
+</head>
+<body>
+  <h1>Hyperlocal Barter Prototype</h1>
+
+  <section>
+    <h2>Sign Up</h2>
+    <input id="su-email" placeholder="email"/>
+    <input id="su-password" type="password" placeholder="password"/>
+    <button onclick="signup()">Sign Up</button>
+  </section>
+
+  <section>
+    <h2>Login</h2>
+    <input id="li-email" placeholder="email"/>
+    <input id="li-password" type="password" placeholder="password"/>
+    <button onclick="login()">Login</button>
+    <div id="token"></div>
+  </section>
+
+  <section>
+    <h2>Create Post</h2>
+    <input id="p-title" placeholder="title"/>
+    <input id="p-category" placeholder="category"/>
+    <input id="p-offer" placeholder="offer"/>
+    <input id="p-lat" placeholder="latitude"/>
+    <input id="p-lng" placeholder="longitude"/>
+    <textarea id="p-description" placeholder="description"></textarea>
+    <button onclick="createPost()">Create</button>
+  </section>
+
+  <section>
+    <h2>Search Posts</h2>
+    <input id="s-category" placeholder="category"/>
+    <input id="s-q" placeholder="keyword"/>
+    <input id="s-lat" placeholder="latitude"/>
+    <input id="s-lng" placeholder="longitude"/>
+    <input id="s-radius" placeholder="radius km"/>
+    <button onclick="searchPosts()">Search</button>
+    <pre id="results"></pre>
+  </section>
+
+<script>
+let authToken = null;
+function signup() {
+  fetch('/api/signup', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({email:document.getElementById('su-email').value,
+                          password:document.getElementById('su-password').value})
+  }).then(r=>r.json()).then(d=>alert(JSON.stringify(d)));
+}
+function login() {
+  fetch('/api/login', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({email:document.getElementById('li-email').value,
+                          password:document.getElementById('li-password').value})
+  }).then(r=>r.json()).then(d=>{authToken=d.token;document.getElementById('token').innerText='Token: '+authToken;});
+}
+function createPost() {
+  fetch('/api/posts', {
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+authToken},
+    body: JSON.stringify({
+      title:document.getElementById('p-title').value,
+      category:document.getElementById('p-category').value,
+      offer:document.getElementById('p-offer').value,
+      lat:document.getElementById('p-lat').value,
+      lng:document.getElementById('p-lng').value,
+      description:document.getElementById('p-description').value})
+  }).then(r=>r.json()).then(d=>alert(JSON.stringify(d)));
+}
+function searchPosts() {
+  const params=new URLSearchParams();
+  ['category','q','lat','lng','radius'].forEach(id=> {
+    const v=document.getElementById('s-'+id).value; if(v) params.append(id,v);
+  });
+  fetch('/api/posts?'+params.toString()).then(r=>r.json()).then(d=>{document.getElementById('results').textContent=JSON.stringify(d,null,2);});
+}
+</script>
+</body>
+</html>
