@@ -1,0 +1,14 @@
+{
+  "name": "hyperlocal-community-barter",
+  "version": "0.1.0",
+  "description": "Prototype server for Hyperlocal Community Barter platform",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs"
+}
